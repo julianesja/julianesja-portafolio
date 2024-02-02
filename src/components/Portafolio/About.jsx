@@ -6,6 +6,10 @@ import GitHub from "../Incons/GitHub";
 import MailIcon from "../Incons/MailIcon";
 import Experience from "./Experience";
 import BrifCase from "../Incons/BrifCase";
+import ExperienceData from "../../Data/Experience.json";
+import ProjectData from "../../Data/Projects.json";
+import Projects from "./Proyects";
+import CodeIcon from "../Incons/CodeIcon";
 
 const About = () => {
   return (
@@ -29,12 +33,13 @@ const About = () => {
           </div>
         </h1>
         <h2 className="text-2xl text-wrap">
-          <span>+10 años de experiencia.</span>
-          <span className="opacity-80">
-            {" "}
-            en Desarrollo web utilizando el lenguage de desarrollo c#.
-          </span>
-          de Medellin colombia
+          Soy un apasionado por el desarrollo de software con mas de 10 años de
+          experiencias, me encanta aprender cada día, y mejorar mis habilidades.
+          Amo aprender de los demás y aportar para que los demás se desarrollen
+          y crezcan cada día. Durante estos 10 años de experiencia he tenido la
+          oportunidad de trabajar con diferentes tecnologías y lenguajes de
+          programación como lo son C#, .net, Python, PHP, Laravel, SQL server,
+          My SQL.
         </h2>
         <div className="flex gap-x-4 mt-4">
           <SocialPill
@@ -57,19 +62,12 @@ const About = () => {
       </section>
       <section id="experience" className="w-full mx-auto lg:w-[740px]">
         <h2 className="text-2xl font-semibold mb-5 flex gap-x-2 items-center">
-            <BrifCase/>
-            Experiencia laboral
+          <BrifCase />
+          Experiencia laboral
         </h2>
-        <Experience
-          experiences={[
-            {
-              date: "May 2022",
-              title: ".Net Semisenior advance",
-              description: "",
-            },
-          ]}
-        />
+        <Experience experiences={ExperienceData} />
       </section>
+     
     </>
   );
 };

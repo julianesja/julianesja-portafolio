@@ -1,0 +1,37 @@
+[
+    {
+        "date": "Actual",
+        "title": "Globant - SSR advanced Developer",
+        "description": "Desarrollo aplicaciones creadas en c# usando .net core y .net framework, desarrollo frontend usando Razor, JQuery y reactjs. Para el almacenamiento de datos utilizando SQL server."
+    },
+    {
+        "date": "Octubre 2020 - Mayo 2022",
+        "title": "Mas Global - SSR Developer",
+        "description": "Desarrollo aplicaciones creadas en c# usando .net core y .net framework, en el frontend usando Reazor, Jquery, reactjs y angular. Trabaje con azure DevOps. Para el almacenamiento de datos utilizando SQL server."
+    },
+    {
+        "date": "Octubre 2019 Junio 2020",
+        "title": "Xpert Group S.A.S - Desarollador de software",
+        "description": "Desarrollo aplicaciones creadas en c# usando .net core y .net framework, en el frontend usando angular. Trabaje con azure DevOps"
+    },
+    {
+        "date": "Febrero 2018 a Octubre 2019",
+        "title": "Cadena Apps - Desarollador de software",
+        "description": "Estuve a cargo de desarrollar aplicaciones con lenguaje C# y mantenimiento de aplicaciones existentes, también estuve a cargo de integrar aplicaciones desarrolladas en .Net con otras aplicaciones desarrolladas en otros lenguajes usando RabbitMQ."
+    },
+    {
+        "date": "Julio 2017 a Febrero 2018",
+        "title": "IGroup - Practicante",
+        "description": "Desarolle aplicaciones utilizando el el lenguaje ruby y el framework rails, tambien utilizando PHP y laravel."
+    },
+    {
+        "date": "Octubre 2014 a Julio 2016",
+        "title": "Conestudios S.A.S - Desarollador de software",
+        "description": "Desarolle una aplicacion desktop para la captura de informacion catastral utilizando el framework de .NET y el lenguaje de programacion de c#, tambien desarrolle una aplicacion para el procesamiento de informacion geografica utilizando el lenguaje de progracion de python."
+    },    
+    {
+        "date": "Enero 2013 a marzo 2014",
+        "title": "Evolution S.A.S - Desarollador de software",
+        "description": "Hice parte del equipo que se encargaba en el desarrollo de una aplicacion web para la gestion de proyectos de sistemas de informacion geografica utilizando el framework de .NET y el lenguaje de programacion c#."
+    }
+]
