@@ -4,13 +4,6 @@ import LinkedInIcon from "../Incons/LinkedInIcon";
 import SocialPill from "./SocialPill";
 import GitHub from "../Incons/GitHub";
 import MailIcon from "../Incons/MailIcon";
-import Experience from "./Experience";
-import BrifCase from "../Incons/BrifCase";
-import ExperienceData from "../../Data/Experience.json";
-import ProjectData from "../../Data/Projects.json";
-import Projects from "./Proyects";
-import CodeIcon from "../Incons/CodeIcon";
-
 const About = () => {
   return (
     <>
@@ -60,14 +53,6 @@ const About = () => {
           </SocialPill>
         </div>
       </section>
-      <section id="experience" className="w-full mx-auto lg:w-[740px]">
-        <h2 className="text-2xl font-semibold mb-5 flex gap-x-2 items-center">
-          <BrifCase />
-          Experiencia laboral
-        </h2>
-        <Experience experiences={ExperienceData} />
-      </section>
-     
     </>
   );
 };

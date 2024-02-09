@@ -1,16 +1,22 @@
 import './App.css'
-import About from './components/Portafolio/About'
-import Footer from './components/Portafolio/Footer'
-import Header from './components/Portafolio/Header'
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import './index.css'
+import Portafolio from './Screen/Portafolio';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element:  <Portafolio />,
+  }
+]);
 
 function App() {
   return (
-    <>  
-       
-        <Header/>
-        <About/>   
-      
-       
+    <> 
+      <RouterProvider router={router} />
     </>
   )
 }
