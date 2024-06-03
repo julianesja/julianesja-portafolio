@@ -1,3 +1,4 @@
+import PasswordField from "../../components/AccountingTool/PasswordField";
 import UploadFile from "../../components/AccountingTool/UploadFile";
 import "./style.css";
 
@@ -22,11 +23,20 @@ const AccountingTool = () => {
           </div>
           <br />
           <UploadFile name={"extracto"} text={"Seleccione un archivo"} />
+          <PasswordField />
           <button title="Enviar" type="submit" className="sign-in_btn">
             <span>Enviar</span>
           </button>
 
-          <p className="note">Terms of use &amp; Conditions</p>
+          <p className="note">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://docs.google.com/document/d/1TSUmd5TI4IrEsRRwrZ6l99fbTSooMXm7Mh2GS71-DEY/edit?usp=sharing"
+            >
+              Terms of use &amp; Conditions
+            </a>
+          </p>
         </form>
       </div>
     </>
