@@ -11,6 +11,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Verificar variables de entorno
+        run: |
+          echo "Verificando variables de entorno en GitHub Actions:"
+          if [ -n "$VITE_FIREBASE_PROJECT_ID" ]; then
+            echo "✅ VITE_FIREBASE_PROJECT_ID está configurada ($VITE_FIREBASE_PROJECT_ID)"
+          else
+            echo "❌ VITE_FIREBASE_PROJECT_ID ESTÁ VACÍA / NO EXISTE"
+          fi
+          if [ -n "$VITE_FIREBASE_API_KEY" ]; then
+            echo "✅ VITE_FIREBASE_API_KEY está configurada (Longitud: ${#VITE_FIREBASE_API_KEY} caracteres)"
+          else
+            echo "❌ VITE_FIREBASE_API_KEY ESTÁ VACÍA / NO EXISTE"
+          fi
+        env:
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+
       - run: npm ci && npm run build
         env:
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
