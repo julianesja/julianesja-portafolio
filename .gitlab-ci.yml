@@ -1,0 +1,45 @@
+# Pipeline de GitLab CI/CD equivalente a GitHub Actions (firebase-hosting-merge.yml)
+default:
+  image: node:20
+
+stages:
+  - build
+  - deploy
+
+build_job:
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  script:
+    - echo "Verificando variables de entorno en GitLab CI/CD:"
+    - |
+      if [ -n "$VITE_FIREBASE_PROJECT_ID" ]; then
+        echo "✅ VITE_FIREBASE_PROJECT_ID está configurada ($VITE_FIREBASE_PROJECT_ID)"
+      else
+        echo "❌ VITE_FIREBASE_PROJECT_ID ESTÁ VACÍA / NO EXISTE"
+      fi
+      if [ -n "$VITE_FIREBASE_API_KEY" ]; then
+        echo "✅ VITE_FIREBASE_API_KEY está configurada (Longitud: ${#VITE_FIREBASE_API_KEY} caracteres)"
+      else
+        echo "❌ VITE_FIREBASE_API_KEY ESTÁ VACÍA / NO EXISTE"
+      fi
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+
+deploy_job:
+  stage: deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  dependencies:
+    - build_job
+  script:
+    - |
+      if [ -n "$FIREBASE_SERVICE_ACCOUNT_JULIANESJA_DA579" ]; then
+        echo "$FIREBASE_SERVICE_ACCOUNT_JULIANESJA_DA579" > key.json
+        export GOOGLE_APPLICATION_CREDENTIALS=key.json
+      fi
+    - npx firebase-tools deploy --only hosting --project julianesja-da579
