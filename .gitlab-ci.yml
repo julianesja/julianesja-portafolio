@@ -38,8 +38,10 @@ deploy_job:
     - build_job
   script:
     - |
-      if [ -n "$FIREBASE_SERVICE_ACCOUNT_JULIANESJA_DA579" ]; then
-        echo "$FIREBASE_SERVICE_ACCOUNT_JULIANESJA_DA579" > key.json
-        export GOOGLE_APPLICATION_CREDENTIALS=key.json
+      if [ -z "$FIREBASE_TOKEN" ]; then
+        echo "❌ ERROR: La variable FIREBASE_TOKEN no está configurada en GitLab CI/CD Variables."
+        exit 1
       fi
-    - npx firebase-tools deploy --only hosting --project julianesja-da579
+      npx firebase-tools deploy --only hosting --project julianesja-da579 --token "$FIREBASE_TOKEN"
+
+
