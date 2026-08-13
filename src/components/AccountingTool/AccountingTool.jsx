@@ -1,17 +1,83 @@
-import React from "react";
+import React, { useState } from "react";
 import PasswordField from "../PasswordField/PasswordField";
 import UploadFile from "../UploadFile/UploadFile";
+import { appCheck } from "../../config/firebase";
+import { getToken } from "firebase/app-check";
 import "./AccountingTool.css";
 
 const AccountingTool = () => {
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMsg("");
+
+    const formData = new FormData(e.target);
+    const file = formData.get("file");
+
+    if (!file || file.size === 0) {
+      setErrorMsg("Por favor seleccione un archivo PDF de extracto válido.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const headers = {};
+
+      // Obtener el token firmado de Firebase App Check si está configurado
+      if (appCheck) {
+        try {
+          const appCheckTokenResult = await getToken(appCheck, false);
+          headers["X-Firebase-AppCheck"] = appCheckTokenResult.token;
+        } catch (appCheckErr) {
+          console.warn("No se pudo obtener el token de App Check:", appCheckErr);
+        }
+      }
+
+      const endpoint =
+        import.meta.env.VITE_API_CONCIL_BANCOLOMBIA ||
+        "https://us-central1-julianesja-da579.cloudfunctions.net/reconciliationTool";
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers,
+        body: formData,
+      });
+
+      if (!response.ok) {
+        let errJson = {};
+        try {
+          errJson = await response.json();
+        } catch (e) {}
+        throw new Error(errJson.error || `Error al procesar la conciliación (Código: ${response.status})`);
+      }
+
+      // Descargar el archivo Excel (.xlsx) resultante
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `reporte_conciliacion_${Date.now()}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Error en conciliación:", err);
+      setErrorMsg(err.message || "Error al procesar el archivo. Verifique la conexión.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="accounting-tool-body">
       <form
         className="form_container"
-        method="POST"
-        action={import.meta.env.VITE_API_CONCIL_BANCOLOMBIA}
+        onSubmit={handleSubmit}
         encType="multipart/form-data"
-        content-type="multipart/form-data"
       >
         <div className="title_container">
           <p className="title">Accounting Tools</p>
@@ -25,8 +91,15 @@ const AccountingTool = () => {
         <UploadFile name={"file"} text={"Seleccione un archivo"} />
         <PasswordField name={"password"} />
         <input type="hidden" name="bank" value="Bancolombia" />
-        <button title="Enviar" type="submit" className="sign-in_btn">
-          <span>Enviar</span>
+
+        {errorMsg && (
+          <p className="error-message" style={{ color: "#ef4444", fontSize: "0.875rem", textAlign: "center", marginTop: "0.5rem" }}>
+            {errorMsg}
+          </p>
+        )}
+
+        <button title="Enviar" type="submit" className="sign-in_btn" disabled={loading}>
+          <span>{loading ? "Procesando Excel..." : "Enviar"}</span>
         </button>
 
         <p className="note">
