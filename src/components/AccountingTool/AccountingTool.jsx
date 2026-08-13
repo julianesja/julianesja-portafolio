@@ -59,7 +59,8 @@ const AccountingTool = () => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `reporte_conciliacion_${Date.now()}.xlsx`;
+      const bankSelected = formData.get("bank") || "banco";
+      a.download = `reporte_${bankSelected.toString().toLowerCase()}_${Date.now()}.xlsx`;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -90,10 +91,32 @@ const AccountingTool = () => {
         <br />
         <UploadFile name={"file"} text={"Seleccione un archivo"} />
         <PasswordField name={"password"} />
-        <input type="hidden" name="bank" value="Bancolombia" />
+
+        <div className="input_container">
+          <label htmlFor="bank_select" className="input_label">
+            Seleccione el Banco
+          </label>
+          <select
+            id="bank_select"
+            name="bank"
+            className="bank_select"
+            defaultValue="Bancolombia"
+          >
+            <option value="Bancolombia">Bancolombia</option>
+            <option value="Davivienda">Davivienda</option>
+          </select>
+        </div>
 
         {errorMsg && (
-          <p className="error-message" style={{ color: "#ef4444", fontSize: "0.875rem", textAlign: "center", marginTop: "0.5rem" }}>
+          <p
+            className="error-message"
+            style={{
+              color: "#ef4444",
+              fontSize: "0.875rem",
+              textAlign: "center",
+              marginTop: "0.5rem"
+            }}
+          >
             {errorMsg}
           </p>
         )}
