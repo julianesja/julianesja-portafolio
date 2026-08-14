@@ -80,6 +80,9 @@ const AccountingTool = () => {
         onSubmit={handleSubmit}
         encType="multipart/form-data"
       >
+        <div className="logo_container">
+          <img src="/logo-conciliador.jpeg" alt="Logo Conciliador" className="logo_img" />
+        </div>
         <div className="title_container">
           <p className="title">Accounting Tools</p>
           <span className="subtitle">
