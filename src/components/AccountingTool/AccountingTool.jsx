@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PasswordField from "../PasswordField/PasswordField";
 import UploadFile from "../UploadFile/UploadFile";
 import { appCheck } from "../../config/firebase";
@@ -9,7 +9,30 @@ const AccountingTool = () => {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  useEffect(() => {
+    const favicon = document.querySelector("link[rel~='icon']");
+    const originalFavicon = favicon ? favicon.href : "";
+    const originalType = favicon ? favicon.getAttribute("type") || "" : "";
+    if (favicon) {
+      favicon.href = "/logo-conciliador.jpeg";
+      favicon.setAttribute("type", "image/jpeg");
+    }
+
+    return () => {
+      if (favicon && originalFavicon) {
+        favicon.href = originalFavicon;
+        if (originalType) {
+          favicon.setAttribute("type", originalType);
+        } else {
+          favicon.removeAttribute("type");
+        }
+      }
+    };
+  }, []);
+
+
   const handleSubmit = async (e) => {
+
     e.preventDefault();
     setLoading(true);
     setErrorMsg("");
@@ -80,9 +103,6 @@ const AccountingTool = () => {
         onSubmit={handleSubmit}
         encType="multipart/form-data"
       >
-        <div className="logo_container">
-          <img src="/logo-conciliador.jpeg" alt="Logo Conciliador" className="logo_img" />
-        </div>
         <div className="title_container">
           <p className="title">Accounting Tools</p>
           <span className="subtitle">
