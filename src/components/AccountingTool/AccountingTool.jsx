@@ -127,6 +127,7 @@ const AccountingTool = () => {
           >
             <option value="Bancolombia">Bancolombia</option>
             <option value="Davivienda">Davivienda</option>
+            <option value="itau">Itaú</option>
           </select>
         </div>
 
