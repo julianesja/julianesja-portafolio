@@ -34,39 +34,41 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const jsonPath = path.resolve(__dirname, "../src/Data/Experience.json");
-const experienceData = JSON.parse(fs.readFileSync(jsonPath, "utf-8"));
-
-const seedFirestore = async () => {
+const seedCollection = async (collectionName, jsonFileName) => {
   try {
-    console.log("Verificando si la colección 'experiences' ya contiene documentos...");
-    const experiencesCollection = collection(db, "experiences");
-    const snapshot = await getDocs(experiencesCollection);
+    const jsonPath = path.resolve(__dirname, `../src/Data/${jsonFileName}`);
+    if (!fs.existsSync(jsonPath)) return;
+
+    const data = JSON.parse(fs.readFileSync(jsonPath, "utf-8"));
+    const colRef = collection(db, collectionName);
+    const snapshot = await getDocs(colRef);
 
     if (!snapshot.empty) {
-      console.log(`La colección ya contiene ${snapshot.size} documento(s). Se omitió la carga para evitar duplicados.`);
-      process.exit(0);
+      console.log(`La colección '${collectionName}' ya contiene ${snapshot.size} documento(s). Se omite.`);
+      return;
     }
 
-    console.log("Iniciando la carga de datos de Experience.json a Firestore...");
-
-    for (let index = 0; index < experienceData.length; index++) {
-      const exp = experienceData[index];
+    console.log(`Cargando datos en la colección '${collectionName}'...`);
+    for (let index = 0; index < data.length; index++) {
+      const item = data[index];
       const docData = {
-        ...exp,
-        order: index + 1,
+        ...item,
+        order: item.order || index + 1,
       };
-
-      const docRef = await addDoc(experiencesCollection, docData);
-      console.log(`[${index + 1}/${experienceData.length}] Documento agregado con ID: ${docRef.id} (${exp.title})`);
+      const docRef = await addDoc(colRef, docData);
+      console.log(`  [${index + 1}/${data.length}] Documento creado con ID: ${docRef.id} (${item.title || item.name || "Item"})`);
     }
-
-    console.log("¡Carga masiva completada con éxito!");
-    process.exit(0);
-  } catch (error) {
-    console.error("Error al cargar datos en Firestore:", error);
-    process.exit(1);
+  } catch (err) {
+    console.error(`Error al sembrar '${collectionName}':`, err);
   }
+};
+
+const seedFirestore = async () => {
+  await seedCollection("experiences", "Experience.json");
+  await seedCollection("projects", "Projects.json");
+  await seedCollection("posts", "Posts.json");
+  console.log("¡Carga finalizada!");
+  process.exit(0);
 };
 
 seedFirestore();

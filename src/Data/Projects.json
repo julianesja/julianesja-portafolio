@@ -1,10 +1,11 @@
 [
-    {
-        "title":"Accounting tools",
-        "description": "",
-        "link" : "",
-        "github":"",
-        "image":"",
-        "tags": [".Net", "Azure Function", "reactjs"]
-    }
+  {
+    "id": "conciliador",
+    "title": "Accounting Tools - Conciliador Bancario",
+    "description": "Herramienta web construida para automatizar la conciliación de extractos bancarios en PDF (Bancolombia, Davivienda, Itaú) y generar reportes consolidados en Excel.",
+    "link": "/conciliador",
+    "github": "https://github.com/julianesja",
+    "image": "/logo-conciliador.jpeg",
+    "tags": ["React", "Firebase", "PDF Engine", "Tailwind CSS"]
+  }
 ]

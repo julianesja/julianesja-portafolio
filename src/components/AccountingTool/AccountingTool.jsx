@@ -73,7 +73,9 @@ const AccountingTool = () => {
         let errJson = {};
         try {
           errJson = await response.json();
-        } catch (e) {}
+        } catch (_jsonErr) {
+          // Si el cuerpo no es JSON válido, continua con el fallback por defecto
+        }
         throw new Error(errJson.error || `Error al procesar la conciliación (Código: ${response.status})`);
       }
 

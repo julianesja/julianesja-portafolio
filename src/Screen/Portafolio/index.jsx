@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from "react";
+import MainLayout from "../../components/Portafolio/MainLayout";
 import About from "../../components/Portafolio/About";
 import BrifCase from "../../components/Incons/BrifCase";
+import CodeIcon from "../../components/Incons/CodeIcon";
 import Experience from "../../components/Portafolio/Experience";
+import Proyects from "../../components/Portafolio/Proyects";
 import ExperienceDataFallback from "../../Data/Experience.json";
-import Header from "../../components/Portafolio/Header";
+import ProjectsDataFallback from "../../Data/Projects.json";
 import { getExperiences } from "../../services/experienceService";
+import { getProjects } from "../../services/projectService";
 import "./style.css";
 
 function Portafolio() {
   const [experiences, setExperiences] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [projects, setProjects] = useState([]);
+  const [loadingExp, setLoadingExp] = useState(true);
+  const [loadingProj, setLoadingProj] = useState(true);
 
   useEffect(() => {
-    const fetchExperiences = async () => {
+    const fetchExperiencesData = async () => {
       try {
         const data = await getExperiences();
         if (data && data.length > 0) {
@@ -21,32 +27,63 @@ function Portafolio() {
           setExperiences(ExperienceDataFallback);
         }
       } catch (error) {
-        console.warn("No se pudo cargar desde Firestore, usando datos estáticos de respaldo:", error);
+        console.warn("No se pudo cargar experiencias desde Firestore, usando respaldo:", error);
         setExperiences(ExperienceDataFallback);
       } finally {
-        setLoading(false);
+        setLoadingExp(false);
       }
     };
 
-    fetchExperiences();
+    const fetchProjectsData = async () => {
+      try {
+        const data = await getProjects();
+        if (data && data.length > 0) {
+          setProjects(data);
+        } else {
+          setProjects(ProjectsDataFallback);
+        }
+      } catch (error) {
+        console.warn("No se pudo cargar proyectos desde Firestore, usando respaldo:", error);
+        setProjects(ProjectsDataFallback);
+      } finally {
+        setLoadingProj(false);
+      }
+    };
+
+    fetchExperiencesData();
+    fetchProjectsData();
   }, []);
 
   return (
-    <>
-      <Header />
+    <MainLayout>
       <About />
-      <section id="experience" className="w-full mx-auto lg:w-[740px]">
-        <h2 className="text-2xl font-semibold mb-5 flex gap-x-2 items-center">
+
+      {/* Sección Experiencia Laboral */}
+      <section id="experience" className="w-full max-w-3xl mx-auto py-12 px-6">
+        <h2 className="text-2xl font-bold mb-8 flex gap-x-3 items-center text-neutral-900 dark:text-white">
           <BrifCase />
           Experiencia laboral
         </h2>
-        {loading ? (
-          <p className="text-gray-400 py-4">Cargando experiencia...</p>
+        {loadingExp ? (
+          <p className="text-neutral-500 dark:text-neutral-400 py-4">Cargando experiencia...</p>
         ) : (
           <Experience experiences={experiences} />
         )}
       </section>
-    </>
+
+      {/* Sección Proyectos */}
+      <section id="projects" className="w-full max-w-3xl mx-auto py-12 px-6">
+        <h2 className="text-2xl font-bold mb-8 flex gap-x-3 items-center text-neutral-900 dark:text-white">
+          <CodeIcon />
+          Proyectos destacados
+        </h2>
+        {loadingProj ? (
+          <p className="text-neutral-500 dark:text-neutral-400 py-4">Cargando proyectos...</p>
+        ) : (
+          <Proyects projects={projects} />
+        )}
+      </section>
+    </MainLayout>
   );
 }
 
