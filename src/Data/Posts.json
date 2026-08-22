@@ -1,0 +1,12 @@
+[
+  {
+    "id": "1",
+    "slug": "introduccion-al-portafolio",
+    "title": "Bienvenido a mi espacio técnico y bitácora de desarrollo",
+    "description": "Un vistazo sobre cómo estructuré este portafolio con React, Tailwind CSS y Firebase, y los retos encontrados al resolver problemas reales.",
+    "content": "¡Hola! En este espacio compartiré artículos sobre arquitectura de software, optimizaciones en React, integración con Firebase y soluciones prácticas a problemas técnicos del día a día.",
+    "date": "2026-08-22",
+    "readTime": "3 min",
+    "tags": ["React", "Firebase", "Web Dev"]
+  }
+]
