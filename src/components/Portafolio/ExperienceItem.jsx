@@ -1,4 +1,5 @@
 import React from "react";
+import { sanitizeHtml } from "../../utils/sanitizeHtml";
 
 function ExperienceItem({ date, title, description, link }) {
   return (
@@ -10,9 +11,10 @@ function ExperienceItem({ date, title, description, link }) {
       <h3 className="text-xl font-bold text-neutral-900 dark:text-white mt-1">
         {title}
       </h3>
-      <p className="mt-2 text-base font-normal text-neutral-600 dark:text-neutral-300 leading-relaxed text-pretty">
-        {description}
-      </p>
+      <div
+        className="mt-2 text-base font-normal text-neutral-600 dark:text-neutral-300 leading-relaxed text-pretty [&_ul]:list-disc [&_ul]:ms-5 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:ms-5 [&_ol]:my-2 [&_li]:mt-1 [&_a]:text-blue-600 dark:[&_a]:text-blue-400 [&_a]:underline [&_strong]:font-semibold dark:[&_strong]:text-white [&_p]:mb-2"
+        dangerouslySetInnerHTML={{ __html: sanitizeHtml(description) }}
+      />
       {link && (
         <a
           href={link}

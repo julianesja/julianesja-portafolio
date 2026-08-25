@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../../components/Portafolio/MainLayout";
 import { useAuth } from "../../context/AuthContext";
+import ExperienceManager from "../../components/Admin/ExperienceManager";
 
 function AdminScreen() {
   const { currentUser, logout } = useAuth();
@@ -78,16 +79,8 @@ function AdminScreen() {
 
         {/* Contenido según la pestaña activa */}
         <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-6 shadow-sm">
-          {activeTab === "experiences" && (
-            <div>
-              <h2 className="text-xl font-bold text-neutral-900 dark:text-white mb-4">
-                Gestión de Experiencias
-              </h2>
-              <p className="text-neutral-500 dark:text-neutral-400 text-sm">
-                Aquí podrás agregar, editar y eliminar experiencias laborales de tu portafolio en Firestore.
-              </p>
-            </div>
-          )}
+          {activeTab === "experiences" && <ExperienceManager />}
+
 
           {activeTab === "projects" && (
             <div>
